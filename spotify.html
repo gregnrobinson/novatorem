@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+  <body>
+
+    <img id="spotify" src="https://spotify-playing-gregnrobinson.vercel.app/api/spotify/?background_color=transparent" alt="Spotify Now Playing" width="600" />
+  </body>
+  <script>
+      setInterval(function() {
+      document.getElementById('spotify').src = "https://spotify-playing-gregnrobinson.vercel.app/api/spotify/?background_color=transparent&random=" + new Date().getTime();
+      }, 2000);
+  </script>
+</html>
