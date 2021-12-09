@@ -71,20 +71,6 @@ def nowPlaying():
     return response.json()
 
 
-def barGen(barCount):
-    barCSS = ""
-    left = 1
-    for i in range(1, barCount + 1):
-        anim = random.randint(1000, 1350)
-        barCSS += (
-            ".bar:nth-child({})  {{ left: {}px; animation-duration: {}ms; }}".format(
-                i, left, anim
-            )
-        )
-        left += 4
-    return barCSS
-
-
 def getTemplate():
     try:
         file = open("api/templates.json", "r")
@@ -101,12 +87,9 @@ def loadImageB64(url):
 
 
 def makeSVG(data, background_color, border_color):
-    barCount = 84
-    contentBar = "".join(["<div class='bar'></div>" for i in range(barCount)])
-    barCSS = barGen(barCount)
 
     if data == {} or data["item"] == "None" or data["item"] is None:
-        # contentBar = "" #Shows/Hides the EQ bar if no song is currently playing
+        contentBar = "" #Shows/Hides the EQ bar if no song is currently playing
         currentStatus = "Was playing:"
         recentPlays = recentlyPlayed()
         recentPlaysLength = len(recentPlays["items"])
@@ -127,8 +110,6 @@ def makeSVG(data, background_color, border_color):
     artistURI = item["artists"][0]["external_urls"]["spotify"]
 
     dataDict = {
-        "contentBar": contentBar,
-        "barCSS": barCSS,
         "artistName": artistName,
         "songName": songName,
         "songURI": songURI,
@@ -146,7 +127,7 @@ def makeSVG(data, background_color, border_color):
 @app.route("/<path:path>")
 @app.route('/with_parameters')
 def catch_all(path):
-    background_color = request.args.get('background_color') or "181414"
+    background_color = request.args.get('background_color') or "transparent"
     border_color = request.args.get('border_color') or "181414"
 
     data = nowPlaying()
